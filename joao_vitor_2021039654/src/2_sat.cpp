@@ -141,7 +141,6 @@ void Grafo::k_Sat(int Propostas, int Seguidores) //, map<string, int> seguidores
         // cout << "linha 141" << endl;
         if (votos[i] > 0 && votos[i + 4] > 0)
         {
-            cout << "linha 143" << endl;
             adicionaAresta(votos[i] + n, votos[i + 4]);
             adicionaArestaInversa(votos[i] + n, votos[i + 4]);
             adicionaAresta(votos[i + 4] + n, votos[i]);
@@ -150,7 +149,6 @@ void Grafo::k_Sat(int Propostas, int Seguidores) //, map<string, int> seguidores
 
         else if (votos[i] > 0 && votos[i + 4] > 0)
         {
-            cout << "linha 152" << endl;
             adicionaAresta(votos[i] + n, n - votos[i + 4]);
             adicionaArestaInversa(votos[i] + n, n - votos[i + 4]);
             adicionaAresta(-votos[i + 4], votos[i]);
@@ -159,7 +157,6 @@ void Grafo::k_Sat(int Propostas, int Seguidores) //, map<string, int> seguidores
 
         else if (votos[i] > 0 && votos[i + 4] > 0)
         {
-            cout << "linha 162" << endl;
             adicionaAresta(-votos[i], votos[i + 4]);
             adicionaArestaInversa(-votos[i], votos[i + 4]);
             adicionaAresta(votos[i + 4] + n, n - votos[i]);
@@ -168,7 +165,6 @@ void Grafo::k_Sat(int Propostas, int Seguidores) //, map<string, int> seguidores
 
         else
         {
-            cout << "linha 171" << endl;
             adicionaAresta(-votos[i], n - votos[i + 4]);
             adicionaArestaInversa(-votos[i], n - votos[i + 4]);
             adicionaAresta(-votos[i + 4], n - votos[i]);
