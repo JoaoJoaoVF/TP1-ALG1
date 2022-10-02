@@ -1,0 +1,5 @@
+- Realizar a leitura dos dados do arquivo de entrada
+- Passar corretamente os dados para o vetor e o map
+- Implemtar DFS
+- Implemtar um vetor de apontamentos inverso e nao
+
