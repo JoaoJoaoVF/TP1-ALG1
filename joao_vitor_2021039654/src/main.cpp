@@ -8,9 +8,7 @@
 
 int main()
 {
-  Grafo eleicao(5);
-  // call a function in another file
-  // test();
+  Grafo eleicao(500);
 
   // Leitura dos dados do arquivo
 
@@ -26,8 +24,6 @@ int main()
     cin >> S >> P;
 
     // Impressao do numero de seguidores e propostas
-    // cout << "S: " << S << endl;
-    // cout << "P: " << P << endl;
     if (S == 0 && P == 0)
     {
       break;
@@ -45,24 +41,17 @@ int main()
 
       nome = "Seguidor " + to_string(i + 1);
 
-      // Impressao do nome do seguidor
-      // cout << "Nome: " << nome << endl;
-
       // Erros garantindo a integridade dos dados
       // erroAssert(nome.size() >= 1, "O nome do seguidor não pode ser vazio");
       // erroAssert(nome.size() <= 20, "O nome do seguidor não pode ter mais de 20 caracteres");
 
       // Adiciona o nome do seguidor no map
-      // eleicao.seguidores[nome] = i;
       eleicao.adicionaSeguidor(nome, i * 4);
 
       // Leitura dos votos do seguidor
       for (int j = 0; j < 4; j++)
       {
         cin >> voto;
-        // cout << "max proposta " << P << " voto candidato " << voto << endl;
-        // Impressao do voto do seguidor
-        // cout << "Voto: " << voto << endl;
 
         // Erros garantindo a integridade dos dados
         erroAssert(voto >= 0, "O voto não pode ser menor que 0");
@@ -71,33 +60,22 @@ int main()
         erroAssert(voto <= P, "O voto não pode ser maior ao número de propostas");
 
         // Adiciona o voto do seguidor no vetor de votos
-        // votos.push_back(voto);
         eleicao.adicionaVoto(voto);
       }
     }
     map<string, int>::iterator it;
 
-    // eleicao.imprimeSeguidores();
-    // eleicao.imprimeVotos();
+    int a[] = {1, -2, -1, 3, -3, -4, -3};
+    int b[] = {2, 3, -2, 4, 5, -5, 4};
+    int n = 5, m = 7;
 
-    // for (it = eleicao.seguidores.begin(); it != eleicao.seguidores.end(); ++it)
-    // {
-    //   cout << it->first << " => ";
-    //   for (int k = 0; k < 4; k++)
-    //   {
-    //     cout << eleicao.votos[it->second * 4 + k] << " ";
-    //   }
-    //   cout << endl;
-    // }
-
-    eleicao.k_Sat(P, S); //, eleicao.seguidores, eleicao.votos);
+    eleicao.is2Satisfiable(n, m, a, b); //, eleicao.seguidores, eleicao.votos);
+    eleicao.k_Sat(n, m, a, b);          //, eleicao.seguidores, eleicao.votos);
 
     eleicao.seguidores.clear();
     eleicao.votos.clear();
     cout << endl;
   } while (S != 0 && P != 0);
-
-  // cout << seguidores.size() << endl;
 
   return (0);
 }

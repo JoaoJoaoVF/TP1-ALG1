@@ -3,7 +3,7 @@
 Grafo::Grafo(int qtd_Vertices)
 {
     this->qtd_Vertices = qtd_Vertices;
-    arestas = new vector<int>[qtd_Vertices]; // iniciamos a lista de adjacencia
+    // arestas = new vector<int>[qtd_Vertices]; // iniciamos a lista de adjacencia
 }
 
 void Grafo::adicionaSeguidor(string nome, int i)
@@ -33,16 +33,6 @@ void Grafo::imprimeSeguidores()
     }
 }
 
-void Grafo::adicionaAresta(int a, int b)
-{
-    arestas[a].push_back(b);
-}
-
-void Grafo::adicionaArestaInversa(int a, int b)
-{
-    aresta_Inversa[b].push_back(a);
-}
-
 void Grafo::imprimeVotos()
 {
     for (long unsigned int i = 0; i < votos.size(); i++)
@@ -54,20 +44,20 @@ void Grafo::imprimeVotos()
     cout << endl;
 }
 
+/*----------------------------------------------------------------------*/
+
+void Grafo::adicionaAresta(int a, int b)
+{
+    arestas[a].push_back(b);
+}
+
+void Grafo::adicionaArestaInversa(int a, int b)
+{
+    aresta_Inversa[b].push_back(a);
+}
+
 void Grafo::primeira_DFS(int v) //, Grafo Graph[])
 {
-    /*
-    visitado[v] = true;
-    for (int i = 0; i < (int)Graph[v].retornaTamanho(); i++)
-    {
-        int u = Graph[v][i];
-        if (!visitado[u])
-        {
-            DFS(u, Graph);
-        }
-    }
-    */
-
     if (visitado[v])
     {
         return;
@@ -75,16 +65,10 @@ void Grafo::primeira_DFS(int v) //, Grafo Graph[])
 
     visitado[v] = 1;
 
-    for (int i = 0; i < (int)arestas[v].size(); i++)
+    for (int i = 0; i < arestas[v].size(); i++)
     {
-        // int u = arestas[v][i];
-        // if (!visitado[u])
-        // {
         primeira_DFS(arestas[v][i]);
-        // }
     }
-    // for (int i = 0; i < arestas[v].size(); i++)
-    //     DFS(arestas[v][i]);
 
     pilha_elementos.push(v);
 }
@@ -98,113 +82,209 @@ void Grafo::segunda_DFS(int v)
 
     visitado_Inverso[v] = 1;
 
-    for (int i = 0; i < (int)aresta_Inversa[v].size(); i++)
+    for (int i = 0; i < aresta_Inversa[v].size(); i++)
     {
-        // int u = arestas[v][i];
-        // if (!visitado_Inverso[u])
-        // {
         segunda_DFS(aresta_Inversa[v][i]);
-        // }
     }
-    // for (int i = 0; i < arestas[v].size(); i++)
-    //     DFS(arestas[v][i]);
 
     comp_Conexa[v] = contador;
 }
 
-void Grafo::k_Sat(int Propostas, int Seguidores) //, map<string, int> seguidores, vector<int> votos)
+void Grafo::k_Sat(int n, int m, int a[], int b[]) //, map<string, int> seguidores, vector<int> votos)
 {
-    /* Sugestao do GitHub autopilot
-    Grafo grafo(2 * Propostas);
-    map<string, int>::iterator it;
-
-    for (it = seguidores.begin(); it != seguidores.end(); ++it)
-    {
-        for (int k = 0; k < 4; k++)
-        {
-            grafo.adicionaAresta(votos[it->second + k], votos[it->second + k + 1]);
-        }
-    }
-    */
-    int n = Propostas; // Numero de variaveis
-    int m = 4;         // Numero de clausulas
-
     for (int i = 0; i < m; i++)
     {
-        /* Sugestao do GitHub autopilot
-
-         for (int j = 0; j < n; j++)
-         {
-             adicionaAresta(i * n + j, i * n + (j + 1) % n);
-         }
-         */
-        // cout << "linha 141" << endl;
-        if (votos[i] > 0 && votos[i + 4] > 0)
+        if (a[i] > 0 && b[i] > 0)
         {
-            adicionaAresta(votos[i] + n, votos[i + 4]);
-            adicionaArestaInversa(votos[i] + n, votos[i + 4]);
-            adicionaAresta(votos[i + 4] + n, votos[i]);
-            adicionaArestaInversa(votos[i + 4] + n, votos[i]);
+            adicionaAresta(a[i] + n, b[i]);
+            adicionaArestaInversa(a[i] + n, b[i]);
+            adicionaAresta(b[i] + n, a[i]);
+            adicionaArestaInversa(b[i] + n, a[i]);
         }
 
-        else if (votos[i] > 0 && votos[i + 4] > 0)
+        else if (a[i] > 0 && b[i] < 0)
         {
-            adicionaAresta(votos[i] + n, n - votos[i + 4]);
-            adicionaArestaInversa(votos[i] + n, n - votos[i + 4]);
-            adicionaAresta(-votos[i + 4], votos[i]);
-            adicionaArestaInversa(-votos[i + 4], votos[i]);
+            adicionaAresta(a[i] + n, n - b[i]);
+            adicionaArestaInversa(a[i] + n, n - b[i]);
+            adicionaAresta(-b[i], a[i]);
+            adicionaArestaInversa(-b[i], a[i]);
         }
 
-        else if (votos[i] > 0 && votos[i + 4] > 0)
+        else if (a[i] < 0 && b[i] > 0)
         {
-            adicionaAresta(-votos[i], votos[i + 4]);
-            adicionaArestaInversa(-votos[i], votos[i + 4]);
-            adicionaAresta(votos[i + 4] + n, n - votos[i]);
-            adicionaArestaInversa(votos[i + 4] + n, n - votos[i]);
+            adicionaAresta(-a[i], b[i]);
+            adicionaArestaInversa(-a[i], b[i]);
+            adicionaAresta(b[i] + n, n - a[i]);
+            adicionaArestaInversa(b[i] + n, n - a[i]);
         }
 
         else
         {
-            adicionaAresta(-votos[i], n - votos[i + 4]);
-            adicionaArestaInversa(-votos[i], n - votos[i + 4]);
-            adicionaAresta(-votos[i + 4], n - votos[i]);
-            adicionaArestaInversa(-votos[i + 4], n - votos[i]);
+            adicionaAresta(-a[i], n - b[i]);
+            adicionaArestaInversa(-a[i], n - b[i]);
+            adicionaAresta(-b[i], n - a[i]);
+            adicionaArestaInversa(-b[i], n - a[i]);
         }
-
-        for (int i = 1; i <= 2 * n; i++)
-            if (!visitado[i])
-                primeira_DFS(i);
-
-        while (!pilha_elementos.empty())
-        {
-            int n = pilha_elementos.top();
-            pilha_elementos.pop();
-
-            if (!visitado_Inverso[n])
-            {
-                segunda_DFS(n);
-                contador++;
-            }
-        }
-
-        for (int i = 1; i <= n; i++)
-        {
-            // for any 2 variable x and -x lie in
-            // same SCC
-            if (comp_Conexa[i] == comp_Conexa[i + n])
-            {
-                // cout << "The given expression is unsatisfiable." << endl;
-                cout << "nao" << endl;
-                return;
-            }
-        }
-
-        // cout << "The given expression is satisfiable." << endl;
-        cout << "sim" << endl;
-        return;
     }
+
+    // STEP 1 of Kosaraju's Algorithm which
+    // traverses the original graph
+    for (int i = 1; i <= 2 * n; i++)
+        if (!visitado[i])
+            primeira_DFS(i);
+
+    // STEP 2 of Kosaraju's Algorithm which
+    // traverses the inverse graph. After this,
+    // array comp_Conexa[] stores the corresponding value
+    while (!pilha_elementos.empty())
+    {
+        int n = pilha_elementos.top();
+        pilha_elementos.pop();
+
+        if (!visitado_Inverso[n])
+        {
+            segunda_DFS(n);
+            contador++;
+        }
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        // for any 2 variable x and -x lie in
+        // same comp_Conexa
+        if (comp_Conexa[i] == comp_Conexa[i + n])
+        {
+            cout << "nao" << endl;
+            return;
+        }
+    }
+
+    // no such variables x and -x exist which lie
+    // in same SCC
+    cout << "sim" << endl;
+    return;
 }
-void test()
+
+/*---------------------------------------------------------------------------------------------------*/
+
+// adds edges to form the original graph
+void Grafo::addEdges(int a, int b)
 {
-    cout << "Funciona!" << endl;
+    adj[a].push_back(b);
+}
+
+// add edges to form the inverse graph
+void Grafo::addEdgesInverse(int a, int b)
+{
+    adjInv[b].push_back(a);
+}
+
+// for STEP 1 of Kosaraju's Algorithm
+void Grafo::dfsFirst(int u)
+{
+    if (visited[u])
+        return;
+
+    visited[u] = 1;
+
+    for (int i = 0; i < adj[u].size(); i++)
+        dfsFirst(adj[u][i]);
+
+    s.push(u);
+}
+
+// for STEP 2 of Kosaraju's Algorithm
+void Grafo::dfsSecond(int u)
+{
+    if (visitedInv[u])
+        return;
+
+    visitedInv[u] = 1;
+
+    for (int i = 0; i < adjInv[u].size(); i++)
+        dfsSecond(adjInv[u][i]);
+
+    scc[u] = counter;
+}
+
+// function to check 2-Satisfiability
+void Grafo::is2Satisfiable(int n, int m, int a[], int b[])
+{
+    // adding edges to the graph
+    for (int i = 0; i < m; i++)
+    {
+        // variable x is mapped to x
+        // variable -x is mapped to n+x = n-(-x)
+
+        // for a[i] or b[i], addEdges -a[i] -> b[i]
+        // AND -b[i] -> a[i]
+        if (a[i] > 0 && b[i] > 0)
+        {
+            addEdges(a[i] + n, b[i]);
+            addEdgesInverse(a[i] + n, b[i]);
+            addEdges(b[i] + n, a[i]);
+            addEdgesInverse(b[i] + n, a[i]);
+        }
+
+        else if (a[i] > 0 && b[i] < 0)
+        {
+            addEdges(a[i] + n, n - b[i]);
+            addEdgesInverse(a[i] + n, n - b[i]);
+            addEdges(-b[i], a[i]);
+            addEdgesInverse(-b[i], a[i]);
+        }
+
+        else if (a[i] < 0 && b[i] > 0)
+        {
+            addEdges(-a[i], b[i]);
+            addEdgesInverse(-a[i], b[i]);
+            addEdges(b[i] + n, n - a[i]);
+            addEdgesInverse(b[i] + n, n - a[i]);
+        }
+
+        else
+        {
+            addEdges(-a[i], n - b[i]);
+            addEdgesInverse(-a[i], n - b[i]);
+            addEdges(-b[i], n - a[i]);
+            addEdgesInverse(-b[i], n - a[i]);
+        }
+    }
+
+    // STEP 1 of Kosaraju's Algorithm which
+    // traverses the original graph
+    for (int i = 1; i <= 2 * n; i++)
+        if (!visited[i])
+            dfsFirst(i);
+
+    // STEP 2 of Kosaraju's Algorithm which
+    // traverses the inverse graph. After this,
+    // array scc[] stores the corresponding value
+    while (!s.empty())
+    {
+        int n = s.top();
+        s.pop();
+
+        if (!visitedInv[n])
+        {
+            dfsSecond(n);
+            counter++;
+        }
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        // for any 2 variable x and -x lie in
+        // same SCC
+        if (scc[i] == scc[i + n])
+        {
+            cout << "nao" << endl;
+            return;
+        }
+    }
+
+    // no such variables x and -x exist which lie
+    // in same SCC
+    cout << "sim" << endl;
+    return;
 }
