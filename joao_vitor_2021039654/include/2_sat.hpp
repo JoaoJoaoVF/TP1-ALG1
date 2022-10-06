@@ -30,36 +30,11 @@ public:
     void adicionaVoto(int i);                  // adiciona um voto no grafo
     void primeira_DFS(int v);                  //, Grafo Graph[]);            // Travessia nos vértices a partir de v
     void segunda_DFS(int v);
-    void k_Sat(int n, int m, int a[], int b[]); //, map<string, int> seguidores, vector<int> votos);
+    void k_Sat(int n); //, map<string, int> seguidores, vector<int> votos);
 
     void imprimeSeguidores();
     void imprimeVotos();
 
     map<string, int> seguidores; // map com um nome para os seguidores e o posicao no vetor de votos
     vector<int> votos;           // vetor de inteiros contendo os votos dos seguidores dos candidatos
-
-    void test();
-    /*-----------------------------------------------------------------------------------------------------*/
-
-    // data structures used to implement Kosaraju's
-    // Algorithm. Please refer
-    // https://www.geeksforgeeks.org/strongly-connected-components/
-    vector<int> adj[MAX];
-    vector<int> adjInv[MAX];
-    bool visited[MAX];
-    bool visitedInv[MAX];
-    stack<int> s;
-
-    // this array will store the SCC that the
-    // particular node belongs to
-    int scc[MAX];
-
-    // counter maintains the number of the SCC
-    int counter = 1;
-
-    void addEdges(int a, int b);
-    void addEdgesInverse(int a, int b);
-    void dfsFirst(int u);
-    void dfsSecond(int u);
-    void is2Satisfiable(int n, int m, int a[], int b[]);
 };

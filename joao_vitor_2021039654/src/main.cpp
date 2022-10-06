@@ -65,15 +65,12 @@ int main()
     }
     map<string, int>::iterator it;
 
-    int a[] = {1, -2, -1, 3, -3, -4, -3};
-    int b[] = {2, 3, -2, 4, 5, -5, 4};
-    int n = 5, m = 7;
-
-    eleicao.is2Satisfiable(n, m, a, b); //, eleicao.seguidores, eleicao.votos);
-    eleicao.k_Sat(n, m, a, b);          //, eleicao.seguidores, eleicao.votos);
+    //, eleicao.seguidores, eleicao.votos);
+    eleicao.k_Sat(P); //, eleicao.seguidores, eleicao.votos);
 
     eleicao.seguidores.clear();
     eleicao.votos.clear();
+    
     cout << endl;
   } while (S != 0 && P != 0);
 

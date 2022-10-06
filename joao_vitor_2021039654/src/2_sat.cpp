@@ -56,7 +56,7 @@ void Grafo::adicionaArestaInversa(int a, int b)
     aresta_Inversa[b].push_back(a);
 }
 
-void Grafo::primeira_DFS(int v) //, Grafo Graph[])
+void Grafo::primeira_DFS(int v)
 {
     if (visitado[v])
     {
@@ -90,9 +90,23 @@ void Grafo::segunda_DFS(int v)
     comp_Conexa[v] = contador;
 }
 
-void Grafo::k_Sat(int n, int m, int a[], int b[]) //, map<string, int> seguidores, vector<int> votos)
+void Grafo::k_Sat(int n) //, map<string, int> seguidores, vector<int> votos)
 {
-    for (int i = 0; i < m; i++)
+    vector<int> a;
+    vector<int> b;
+    for (int x = 0; x < 4; x++)
+    {
+        a.push_back(votos[x]);
+        b.push_back(votos[x + 4]);
+    }
+    for (int x = 0; x < 4; x++)
+    {
+        cout << "a " << votos[x] << endl;
+        cout << "b " << votos[x + 4] << endl;
+        // b.push_back(votos[x + 4]);
+    }
+
+    for (int i = 0; i < 5; i++)
     {
         if (a[i] > 0 && b[i] > 0)
         {
@@ -153,130 +167,6 @@ void Grafo::k_Sat(int n, int m, int a[], int b[]) //, map<string, int> seguidore
         // for any 2 variable x and -x lie in
         // same comp_Conexa
         if (comp_Conexa[i] == comp_Conexa[i + n])
-        {
-            cout << "nao" << endl;
-            return;
-        }
-    }
-
-    // no such variables x and -x exist which lie
-    // in same SCC
-    cout << "sim" << endl;
-    return;
-}
-
-/*---------------------------------------------------------------------------------------------------*/
-
-// adds edges to form the original graph
-void Grafo::addEdges(int a, int b)
-{
-    adj[a].push_back(b);
-}
-
-// add edges to form the inverse graph
-void Grafo::addEdgesInverse(int a, int b)
-{
-    adjInv[b].push_back(a);
-}
-
-// for STEP 1 of Kosaraju's Algorithm
-void Grafo::dfsFirst(int u)
-{
-    if (visited[u])
-        return;
-
-    visited[u] = 1;
-
-    for (int i = 0; i < adj[u].size(); i++)
-        dfsFirst(adj[u][i]);
-
-    s.push(u);
-}
-
-// for STEP 2 of Kosaraju's Algorithm
-void Grafo::dfsSecond(int u)
-{
-    if (visitedInv[u])
-        return;
-
-    visitedInv[u] = 1;
-
-    for (int i = 0; i < adjInv[u].size(); i++)
-        dfsSecond(adjInv[u][i]);
-
-    scc[u] = counter;
-}
-
-// function to check 2-Satisfiability
-void Grafo::is2Satisfiable(int n, int m, int a[], int b[])
-{
-    // adding edges to the graph
-    for (int i = 0; i < m; i++)
-    {
-        // variable x is mapped to x
-        // variable -x is mapped to n+x = n-(-x)
-
-        // for a[i] or b[i], addEdges -a[i] -> b[i]
-        // AND -b[i] -> a[i]
-        if (a[i] > 0 && b[i] > 0)
-        {
-            addEdges(a[i] + n, b[i]);
-            addEdgesInverse(a[i] + n, b[i]);
-            addEdges(b[i] + n, a[i]);
-            addEdgesInverse(b[i] + n, a[i]);
-        }
-
-        else if (a[i] > 0 && b[i] < 0)
-        {
-            addEdges(a[i] + n, n - b[i]);
-            addEdgesInverse(a[i] + n, n - b[i]);
-            addEdges(-b[i], a[i]);
-            addEdgesInverse(-b[i], a[i]);
-        }
-
-        else if (a[i] < 0 && b[i] > 0)
-        {
-            addEdges(-a[i], b[i]);
-            addEdgesInverse(-a[i], b[i]);
-            addEdges(b[i] + n, n - a[i]);
-            addEdgesInverse(b[i] + n, n - a[i]);
-        }
-
-        else
-        {
-            addEdges(-a[i], n - b[i]);
-            addEdgesInverse(-a[i], n - b[i]);
-            addEdges(-b[i], n - a[i]);
-            addEdgesInverse(-b[i], n - a[i]);
-        }
-    }
-
-    // STEP 1 of Kosaraju's Algorithm which
-    // traverses the original graph
-    for (int i = 1; i <= 2 * n; i++)
-        if (!visited[i])
-            dfsFirst(i);
-
-    // STEP 2 of Kosaraju's Algorithm which
-    // traverses the inverse graph. After this,
-    // array scc[] stores the corresponding value
-    while (!s.empty())
-    {
-        int n = s.top();
-        s.pop();
-
-        if (!visitedInv[n])
-        {
-            dfsSecond(n);
-            counter++;
-        }
-    }
-
-    for (int i = 1; i <= n; i++)
-    {
-        // for any 2 variable x and -x lie in
-        // same SCC
-        if (scc[i] == scc[i + n])
         {
             cout << "nao" << endl;
             return;
