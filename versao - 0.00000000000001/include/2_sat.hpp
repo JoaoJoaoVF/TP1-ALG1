@@ -12,17 +12,17 @@ using namespace std;
 class Grafo
 { // Classe que representa o grafo
 public:
-    // int qtd_Vertices;                 // Número de Vértices
-    vector<int> arestas[MAX];        // Ponteiro para vbetor com a lista de arestas
-    vector<int> aresta_Inversa[MAX]; // Ponteiro para vbetor com a lista de arestas Inversas
-    bool visitado[MAX];              // Marca se a aresta ja foi visitada
-    bool visitado_Inverso[MAX];      // Marca se a aresta ja foi visitada
-    // vector<int> vertices[MAX ];       // vetor contendo os vértices nas rotas
-    stack<int> pilha_elementos; // pilha de elementos
-    int comp_Conexa[MAX];       // guarda a qual componente conexa pertence cada no
-    int contador = 1;           // contador mantém o número da Componetes Conexas
+    int qtd_Vertices;                 // Número de Vértices
+    vector<int> arestas[5000];        // Ponteiro para vbetor com a lista de arestas
+    vector<int> aresta_Inversa[5000]; // Ponteiro para vbetor com a lista de arestas Inversas
+    bool visitado[5000];              // Marca se a aresta ja foi visitada
+    bool visitado_Inverso[5000];      // Marca se a aresta ja foi visitada
+    vector<int> vertices[5000];       // vetor contendo os vértices nas rotas
+    stack<int> pilha_elementos;       // pilha de elementos
+    int comp_Conexa[5000];            // guarda a qual componente conexa pertence cada no
+    int contador = 1;                 // contador mantém o número da Componetes Conexas
 
-    Grafo(); // Construtor do grafo
+    Grafo(int qtd_Vertices); // Construtor do grafo
 
     void adicionaAresta(int a, int b); // Função que adiciona arestas ao grafo
     void adicionaArestaInversa(int a, int b);
@@ -30,7 +30,7 @@ public:
     void adicionaVoto(int i);                  // adiciona um voto no grafo
     void primeira_DFS(int v);                  //, Grafo Graph[]);            // Travessia nos vértices a partir de v
     void segunda_DFS(int v);
-    void k_Sat(int n, int m, vector<int> a, vector<int> b); //, map<string, int> seguidores, vector<int> votos);
+    void k_Sat(int n); //, map<string, int> seguidores, vector<int> votos);
 
     void imprimeSeguidores();
     void imprimeVotos();

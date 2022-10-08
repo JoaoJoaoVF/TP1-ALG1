@@ -1,111 +1,70 @@
+#include <bits/stdc++.h>
 #include "../include/2_sat.hpp"
+using namespace std;
 
-Grafo::Grafo()
+void Grafo::limpa()
 {
-    // this->qtd_Vertices = qtd_Vertices;
-    // arestas = new vector<int>[qtd_Vertices]; // iniciamos a lista de adjacencia
-}
-
-void Grafo::adicionaSeguidor(string nome, int i)
-{
-    seguidores[nome] = i;
-}
-
-void Grafo::adicionaVoto(int i)
-{
-    votos.push_back(i);
-}
-
-void Grafo::imprimeSeguidores()
-{
-    map<string, int>::iterator it;
-
-    for (it = seguidores.begin(); it != seguidores.end(); ++it)
+    for (int i = 0; i < MAX; i++)
     {
-        cout << it->first << " => " << it->second << endl;
-
-        /* for (int k = 0; k < 4; k++)
-        {
-            cout << votos[it->second + k] << " ";
-        }
-        cout << endl;
-        */
+        aresta[i].clear();
+        aresta_Inversa[i].clear();
+        visitado[i] = false;
+        visitado_Inverso[i] = false;
     }
+    pilha_elementos = stack<int>();
 }
 
-void Grafo::imprimeVotos()
-{
-    for (long unsigned int i = 0; i < votos.size(); i++)
-    {
-        if (i % 4 == 0)
-            cout << endl;
-        cout << votos[i] << " ";
-    }
-    cout << endl;
-}
-
-/*----------------------------------------------------------------------*/
-
+// adds edges to form the original graph
 void Grafo::adicionaAresta(int a, int b)
 {
-    arestas[a].push_back(b);
+    aresta[a].push_back(b);
 }
 
+// add edges to form the inverse graph
 void Grafo::adicionaArestaInversa(int a, int b)
 {
     aresta_Inversa[b].push_back(a);
 }
 
-void Grafo::primeira_DFS(int v)
+// for STEP 1 of Kosaraju's Algorithm
+void Grafo::primeira_DFS(int u)
 {
-    if (visitado[v])
-    {
+    if (visitado[u])
         return;
-    }
 
-    visitado[v] = 1;
+    visitado[u] = 1;
 
-    for (int i = 0; i < arestas[v].size(); i++)
-    {
-        primeira_DFS(arestas[v][i]);
-    }
+    for (int i = 0; i < aresta[u].size(); i++)
+        primeira_DFS(aresta[u][i]);
 
-    pilha_elementos.push(v);
+    pilha_elementos.push(u);
 }
 
-void Grafo::segunda_DFS(int v)
+// for STEP 2 of Kosaraju's Algorithm
+void Grafo::segunda_DFS(int u)
 {
-    if (visitado_Inverso[v])
-    {
+    if (visitado_Inverso[u])
         return;
-    }
 
-    visitado_Inverso[v] = 1;
+    visitado_Inverso[u] = 1;
 
-    for (int i = 0; i < aresta_Inversa[v].size(); i++)
-    {
-        segunda_DFS(aresta_Inversa[v][i]);
-    }
+    for (int i = 0; i < aresta_Inversa[u].size(); i++)
+        segunda_DFS(aresta_Inversa[u][i]);
 
-    comp_Conexa[v] = contador;
+    scc[u] = counter;
 }
 
-void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b) //, map<string, int> seguidores, vector<int> votos)
+// function to check 2-Satisfiability
+void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
 {
-    for (int x = 0; x < 4; x++)
+    // adding edges to the graph
+    for (int i = 0; i < m; i++)
     {
-        a.push_back(votos[x]);
-        b.push_back(votos[x + 4]);
-    }
-    for (int x = 0; x < 4; x++)
-    {
-        cout << "a " << votos[x] << endl;
-        cout << "b " << votos[x + 4] << endl;
-        // b.push_back(votos[x + 4]);
-    }
+        // variable x is mapped to x
+        // variable -x is mapped to n+x = n-(-x)
 
-    for (int i = 0; i < 5; i++)
-    {
+        // for a[i] or b[i], adicionaAresta -a[i] -> b[i]
+        // AND -b[i] -> a[i]
         if (a[i] > 0 && b[i] > 0)
         {
             adicionaAresta(a[i] + n, b[i]);
@@ -147,7 +106,7 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b) //, map<string, in
 
     // STEP 2 of Kosaraju's Algorithm which
     // traverses the inverse graph. After this,
-    // array comp_Conexa[] stores the corresponding value
+    // array scc[] stores the corresponding value
     while (!pilha_elementos.empty())
     {
         int n = pilha_elementos.top();
@@ -156,15 +115,15 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b) //, map<string, in
         if (!visitado_Inverso[n])
         {
             segunda_DFS(n);
-            contador++;
+            counter++;
         }
     }
 
     for (int i = 1; i <= n; i++)
     {
         // for any 2 variable x and -x lie in
-        // same comp_Conexa
-        if (comp_Conexa[i] == comp_Conexa[i + n])
+        // same SCC
+        if (scc[i] == scc[i + n])
         {
             cout << "nao" << endl;
             return;
@@ -175,4 +134,10 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b) //, map<string, in
     // in same SCC
     cout << "sim" << endl;
     return;
+}
+
+void Grafo::imprime(vector<int> a)
+{
+    for (int i = 0; i < a.size(); i++)
+        cout << a[i] << " ";
 }

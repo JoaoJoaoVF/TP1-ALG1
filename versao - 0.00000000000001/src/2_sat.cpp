@@ -1,8 +1,8 @@
 #include "../include/2_sat.hpp"
 
-Grafo::Grafo()
+Grafo::Grafo(int qtd_Vertices)
 {
-    // this->qtd_Vertices = qtd_Vertices;
+    this->qtd_Vertices = qtd_Vertices;
     // arestas = new vector<int>[qtd_Vertices]; // iniciamos a lista de adjacencia
 }
 
@@ -90,8 +90,10 @@ void Grafo::segunda_DFS(int v)
     comp_Conexa[v] = contador;
 }
 
-void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b) //, map<string, int> seguidores, vector<int> votos)
+void Grafo::k_Sat(int n) //, map<string, int> seguidores, vector<int> votos)
 {
+    vector<int> a;
+    vector<int> b;
     for (int x = 0; x < 4; x++)
     {
         a.push_back(votos[x]);

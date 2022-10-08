@@ -8,15 +8,14 @@
 
 int main()
 {
+  Grafo eleicao(500);
 
-  // Grafo eleicao(500);
   // Leitura dos dados do arquivo
 
   /*
     S representa o numero de seguidores
     P o numero de propostas
   */
-
   int S, P, voto;
 
   do
@@ -71,13 +70,9 @@ int main()
 
     eleicao.seguidores.clear();
     eleicao.votos.clear();
-
+    
     cout << endl;
   } while (S != 0 && P != 0);
-
-  // n is the number of variables
-  // 2n is the total number of nodes
-  // m is the number of clauses
 
   return (0);
 }
