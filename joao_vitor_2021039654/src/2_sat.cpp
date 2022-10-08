@@ -59,7 +59,7 @@ void Grafo::segunda_DFS(int u)
 void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
 {
     // adding edges to the graph
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < n * 2; i++)
     {
         // variable x is mapped to x
         // variable -x is mapped to n+x = n-(-x)
@@ -140,5 +140,5 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
 void Grafo::imprime(vector<int> a)
 {
     for (int i = 0; i < a.size(); i++)
-        cout << a[i] << " ";
+        cout << a[i] << ", ";
 }
