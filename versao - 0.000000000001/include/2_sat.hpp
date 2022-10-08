@@ -18,12 +18,12 @@ public:
     bool visitado_Inverso[MAX];
     stack<int> pilha_elementos;
 
-    // this array will store the SCC that the
+    // this array will store the comp_Conexa that the
     // particular node belongs to
-    int scc[MAX];
+    int comp_Conexa[MAX];
 
-    // counter maintains the number of the SCC
-    int counter = 1;
+    // contador maintains the number of the comp_Conexa
+    int contador = 1;
 
     void limpa();
     void adicionaAresta(int a, int b);

@@ -4,15 +4,15 @@ using namespace std;
 
 void Grafo::limpa()
 {
-    // for (int i = 0; i < MAX; i++)
-    // {
-    //     aresta[i].clear();
-    //     pilha_elementos.pop();
-    //     aresta_Inversa[i].clear();
-    //     visitado[i] = false;
-    //     visitado_Inverso[i] = false;
-    // }
-    // pilha_elementos = stack<int>();
+    for (int i = 0; i < MAX; i++)
+    {
+        aresta[i].clear();
+        pilha_elementos.pop();
+        aresta_Inversa[i].clear();
+        visitado[i] = false;
+        visitado_Inverso[i] = false;
+    }
+    pilha_elementos = stack<int>();
 }
 
 // adds edges to form the original graph
