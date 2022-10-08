@@ -92,7 +92,14 @@ int main()
 
     eleicoes.k_Sat(S, P, propostas_a, propostas_b);
 
-    
+    // eleicoes.imprime(propostas_a);
+    // cout << propostas_a.size() << endl;
+    // cout << propostas_b.size() << endl;
+    // // eleicoes.imprime(propostas_b);
+    // cout << endl;
+    // // cout << endl;
+    // cout << endl;
+
     eleicoes.limpa();
 
   } while (S != 0 && P != 0);

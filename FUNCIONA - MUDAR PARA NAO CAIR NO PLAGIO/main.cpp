@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAX = 10001;
+const int MAX = 20001;
 
 // data structures used to implement Kosaraju's
 // Algorithm. Please refer
@@ -27,8 +27,10 @@ void limpa()
         adjInv[i].clear();
         visited[i] = false;
         visitedInv[i] = false;
+        //scc[i] = 1;
     }
     s = stack<int>();
+    //counter = 1;
 }
 
 // adds edges to form the original graph
@@ -74,44 +76,47 @@ void dfsSecond(int u)
 // function to check 2-Satisfiability
 void is2Satisfiable(int n, int m, vector<int> a, vector<int> b)
 {
+    //n = número de vertices/propostas, entao isso é = p
+    //m = número de clausulas = 2*n 
+
     // adding edges to the graph
-    for (int i = 0; i < n * 2; i++)
+    for (int i = 0; i < n*2; i++)
     {
         // variable x is mapped to x
         // variable -x is mapped to n+x = n-(-x)
 
         // for a[i] or b[i], addEdges -a[i] -> b[i]
         // AND -b[i] -> a[i]
-        if (a[i] > 0 && b[i] > 0)
+        if (a[i]>0 && b[i]>0)
         {
-            addEdges(a[i] + m, b[i]);
-            addEdgesInverse(a[i] + m, b[i]);
-            addEdges(b[i] + m, a[i]);
-            addEdgesInverse(b[i] + m, a[i]);
+            addEdges(a[i]+m, b[i]);
+            addEdgesInverse(a[i]+m, b[i]);
+            addEdges(b[i]+m, a[i]);
+            addEdgesInverse(b[i]+m, a[i]);
         }
-
-        else if (a[i] > 0 && b[i] < 0)
+  
+        else if (a[i]>0 && b[i]<0)
         {
-            addEdges(a[i] + m, m - b[i]);
-            addEdgesInverse(a[i] + m, m - b[i]);
+            addEdges(a[i]+m, m-b[i]);
+            addEdgesInverse(a[i]+m, m-b[i]);
             addEdges(-b[i], a[i]);
             addEdgesInverse(-b[i], a[i]);
         }
-
-        else if (a[i] < 0 && b[i] > 0)
+  
+        else if (a[i]<0 && b[i]>0)
         {
             addEdges(-a[i], b[i]);
             addEdgesInverse(-a[i], b[i]);
-            addEdges(b[i] + m,m - a[i]);
-            addEdgesInverse(b[i] + m, m - a[i]);
+            addEdges(b[i]+m, m-a[i]);
+            addEdgesInverse(b[i]+m, m-a[i]);
         }
-
+  
         else
         {
-            addEdges(-a[i], m - b[i]);
-            addEdgesInverse(-a[i], m - b[i]);
-            addEdges(-b[i], m - a[i]);
-            addEdgesInverse(-b[i], m- a[i]);
+            addEdges(-a[i], m-b[i]);
+            addEdgesInverse(-a[i], m-b[i]);
+            addEdges(-b[i], m-a[i]);
+            addEdgesInverse(-b[i], m-a[i]);
         }
     }
 
@@ -136,20 +141,22 @@ void is2Satisfiable(int n, int m, vector<int> a, vector<int> b)
         }
     }
 
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i <= m; i++)
     {
         // for any 2 variable x and -x lie in
         // same SCC
-        if (scc[i] == scc[i + n])
+        if (scc[i] == scc[i + m])
         {
-            cout << "nao" << endl;
+            cout << "nao"
+                 << endl;
             return;
         }
     }
 
     // no such variables x and -x exist which lie
     // in same SCC
-    cout << "sim" << endl;
+    cout << "sim"
+         << endl;
     return;
 }
 

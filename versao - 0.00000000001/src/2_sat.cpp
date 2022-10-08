@@ -4,14 +4,15 @@ using namespace std;
 
 void Grafo::limpa()
 {
-    for (int i = 0; i < MAX; i++)
-    {
-        aresta[i].clear();
-        aresta_Inversa[i].clear();
-        visitado[i] = false;
-        visitado_Inverso[i] = false;
-    }
-    pilha_elementos = stack<int>();
+    // for (int i = 0; i < MAX; i++)
+    // {
+    //     aresta[i].clear();
+    //     pilha_elementos.pop();
+    //     aresta_Inversa[i].clear();
+    //     visitado[i] = false;
+    //     visitado_Inverso[i] = false;
+    // }
+    // pilha_elementos = stack<int>();
 }
 
 // adds edges to form the original graph
@@ -67,16 +68,16 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
         // AND -b[i] -> a[i]
         if (a[i] > 0 && b[i] > 0)
         {
-            adicionaAresta(a[i] + m, b[i]);
-            adicionaArestaInversa(a[i] + m, b[i]);
-            adicionaAresta(b[i] + m, a[i]);
-            adicionaArestaInversa(b[i] + m, a[i]);
+            adicionaAresta(a[i] + n, b[i]);
+            adicionaArestaInversa(a[i] + n, b[i]);
+            adicionaAresta(b[i] + n, a[i]);
+            adicionaArestaInversa(b[i] + n, a[i]);
         }
 
         else if (a[i] > 0 && b[i] < 0)
         {
-            adicionaAresta(a[i] + m, m - b[i]);
-            adicionaArestaInversa(a[i] + m, m - b[i]);
+            adicionaAresta(a[i] + n, n - b[i]);
+            adicionaArestaInversa(a[i] + n, n - b[i]);
             adicionaAresta(-b[i], a[i]);
             adicionaArestaInversa(-b[i], a[i]);
         }
@@ -85,8 +86,8 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
         {
             adicionaAresta(-a[i], b[i]);
             adicionaArestaInversa(-a[i], b[i]);
-            adicionaAresta(b[i] + m, m - a[i]);
-            adicionaArestaInversa(b[i] + m, m - a[i]);
+            adicionaAresta(b[i] + n, n - a[i]);
+            adicionaArestaInversa(b[i] + n, n - a[i]);
         }
 
         else
@@ -100,7 +101,7 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
 
     // STEP 1 of Kosaraju's Algorithm which
     // traverses the original graph
-    for (int i = 1; i <= 2 * m; i++)
+    for (int i = 1; i <= 2 * n; i++)
         if (!visitado[i])
             primeira_DFS(i);
 
@@ -119,11 +120,11 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
         }
     }
 
-    for (int i = 1; i <= m; i++)
+    for (int i = 1; i <= n; i++)
     {
         // for any 2 variable x and -x lie in
         // same comp_Conexa
-        if (comp_Conexa[i] == comp_Conexa[i + m])
+        if (comp_Conexa[i] == comp_Conexa[i + n])
         {
             cout << "nao" << endl;
             return;
@@ -134,4 +135,10 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
     // in same comp_Conexa
     cout << "sim" << endl;
     return;
+}
+
+void Grafo::imprime(vector<int> a)
+{
+    for (int i = 0; i < a.size(); i++)
+        cout << a[i] << ", ";
 }

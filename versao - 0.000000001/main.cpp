@@ -84,16 +84,16 @@ void is2Satisfiable(int n, int m, vector<int> a, vector<int> b)
         // AND -b[i] -> a[i]
         if (a[i] > 0 && b[i] > 0)
         {
-            addEdges(a[i] + m, b[i]);
-            addEdgesInverse(a[i] + m, b[i]);
-            addEdges(b[i] + m, a[i]);
-            addEdgesInverse(b[i] + m, a[i]);
+            addEdges(a[i] + n, b[i]);
+            addEdgesInverse(a[i] + n, b[i]);
+            addEdges(b[i] + n, a[i]);
+            addEdgesInverse(b[i] + n, a[i]);
         }
 
         else if (a[i] > 0 && b[i] < 0)
         {
-            addEdges(a[i] + m, m - b[i]);
-            addEdgesInverse(a[i] + m, m - b[i]);
+            addEdges(a[i] + n, n - b[i]);
+            addEdgesInverse(a[i] + n, n - b[i]);
             addEdges(-b[i], a[i]);
             addEdgesInverse(-b[i], a[i]);
         }
@@ -102,22 +102,22 @@ void is2Satisfiable(int n, int m, vector<int> a, vector<int> b)
         {
             addEdges(-a[i], b[i]);
             addEdgesInverse(-a[i], b[i]);
-            addEdges(b[i] + m,m - a[i]);
-            addEdgesInverse(b[i] + m, m - a[i]);
+            addEdges(b[i] + n, n - a[i]);
+            addEdgesInverse(b[i] + n, n - a[i]);
         }
 
         else
         {
-            addEdges(-a[i], m - b[i]);
-            addEdgesInverse(-a[i], m - b[i]);
-            addEdges(-b[i], m - a[i]);
-            addEdgesInverse(-b[i], m- a[i]);
+            addEdges(-a[i], n - b[i]);
+            addEdgesInverse(-a[i], n - b[i]);
+            addEdges(-b[i], n - a[i]);
+            addEdgesInverse(-b[i], n - a[i]);
         }
     }
 
     // STEP 1 of Kosaraju's Algorithm which
     // traverses the original graph
-    for (int i = 1; i <= 2 * m; i++)
+    for (int i = 1; i <= 2 * n; i++)
         if (!visited[i])
             dfsFirst(i);
 

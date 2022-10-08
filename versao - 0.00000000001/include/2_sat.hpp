@@ -31,6 +31,7 @@ public:
     void primeira_DFS(int u);
     void segunda_DFS(int u);
     void k_Sat(int n, int m, vector<int> a, vector<int> b);
+    void imprime(vector<int> a);
 };
 
 #endif
