@@ -14,74 +14,73 @@ void Grafo::adicionaArestaInversa(int a, int b)
 }
 
 // DFS dos elementos do grafo original
-void Grafo::primeira_DFS(int u)
+void Grafo::primeira_DFS(int v)
 {
-    if (visitado[u])
+    if (visitado[v])
         return;
 
-    visitado[u] = 1;
+    visitado[v] = 1;
 
-    for (long unsigned int i = 0; i < aresta[u].size(); i++)
-        primeira_DFS(aresta[u][i]);
+    for (long unsigned int i = 0; i < aresta[v].size(); i++)
+        primeira_DFS(aresta[v][i]);
 
-    pilha_elementos.push(u);
+    pilha_elementos.push(v);
 }
 
 // DFS dos elementos do grafo inverso
-void Grafo::segunda_DFS(int u)
+void Grafo::segunda_DFS(int v)
 {
-    if (visitado_Inverso[u])
+    if (visitado_Inverso[v])
         return;
 
-    visitado_Inverso[u] = 1;
+    visitado_Inverso[v] = 1;
+    comp_Conexa[v] = contador;
 
-    for (long unsigned int i = 0; i < aresta_Inversa[u].size(); i++)
-        segunda_DFS(aresta_Inversa[u][i]);
-
-    comp_Conexa[u] = contador;
+    for (long unsigned int i = 0; i < aresta_Inversa[v].size(); i++)
+        segunda_DFS(aresta_Inversa[v][i]);
 }
 
 // função para verificar a satisfabilidade
-void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
+void Grafo::k_Sat(int S, int P, vector<int> Propostas_1, vector<int> Propostas_2)
 {
     // laco que percorre as clausulas e adiciona as arestas ao grafo
-    for (int i = 0; i < n * 2; i++)
+    for (int i = 0; i < S * 2; i++)
     {
-        if (a[i] > 0 && b[i] > 0) // veridica se ambas as arestas sao positivas
+        if (Propostas_1[i] > 0 && Propostas_2[i] > 0) // veridica se ambas as arestas sao positivas
         {
-            adicionaAresta(a[i] + m, b[i]);
-            adicionaArestaInversa(a[i] + m, b[i]);
-            adicionaAresta(b[i] + m, a[i]);
-            adicionaArestaInversa(b[i] + m, a[i]);
+            adicionaAresta(Propostas_1[i] + P, Propostas_2[i]);
+            adicionaArestaInversa(Propostas_1[i] + P, Propostas_2[i]);
+            adicionaAresta(Propostas_2[i] + P, Propostas_1[i]);
+            adicionaArestaInversa(Propostas_2[i] + P, Propostas_1[i]);
         }
 
-        else if (a[i] > 0 && b[i] < 0) // verifica se a primeira aresta é positiva e a segunda negada
+        else if (Propostas_1[i] > 0 && Propostas_2[i] < 0) // verifica se a primeira aresta é positiva e a segunda negada
         {
-            adicionaAresta(a[i] + m, m - b[i]);
-            adicionaArestaInversa(a[i] + m, m - b[i]);
-            adicionaAresta(-b[i], a[i]);
-            adicionaArestaInversa(-b[i], a[i]);
+            adicionaAresta(Propostas_1[i] + P, P - Propostas_2[i]);
+            adicionaArestaInversa(Propostas_1[i] + P, P - Propostas_2[i]);
+            adicionaAresta(-Propostas_2[i], Propostas_1[i]);
+            adicionaArestaInversa(-Propostas_2[i], Propostas_1[i]);
         }
 
-        else if (a[i] < 0 && b[i] > 0) // verifica se a segunda aresta é positiva e a primeira negada
+        else if (Propostas_1[i] < 0 && Propostas_2[i] > 0) // verifica se a segunda aresta é positiva e a primeira negada
         {
-            adicionaAresta(-a[i], b[i]);
-            adicionaArestaInversa(-a[i], b[i]);
-            adicionaAresta(b[i] + m, m - a[i]);
-            adicionaArestaInversa(b[i] + m, m - a[i]);
+            adicionaAresta(-Propostas_1[i], Propostas_2[i]);
+            adicionaArestaInversa(-Propostas_1[i], Propostas_2[i]);
+            adicionaAresta(Propostas_2[i] + P, P - Propostas_1[i]);
+            adicionaArestaInversa(Propostas_2[i] + P, P - Propostas_1[i]);
         }
 
         else // caso em que ambas as arestas sao negadas
         {
-            adicionaAresta(-a[i], m - b[i]);
-            adicionaArestaInversa(-a[i], m - b[i]);
-            adicionaAresta(-b[i], m - a[i]);
-            adicionaArestaInversa(-b[i], m - a[i]);
+            adicionaAresta(-Propostas_1[i], P - Propostas_2[i]);
+            adicionaArestaInversa(-Propostas_1[i], P - Propostas_2[i]);
+            adicionaAresta(-Propostas_2[i], P - Propostas_1[i]);
+            adicionaArestaInversa(-Propostas_2[i], P - Propostas_1[i]);
         }
     }
 
     // laco que percorre os elementos do grafo original e realiza a DFS neles
-    for (int i = 1; i <= 2 * m; i++)
+    for (int i = 1; i <= 2 * P; i++)
         if (!visitado[i])
             primeira_DFS(i);
 
@@ -99,9 +98,9 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
     }
 
     // laco que percorre as componentes conexas e verifica se existe uma aresta que liga a mesma componente
-    for (int i = 1; i <= m; i++)
+    for (int i = 1; i <= P; i++)
     {
-        if (comp_Conexa[i] == comp_Conexa[i + m])
+        if (comp_Conexa[i] == comp_Conexa[i + P])
         {
             cout << "nao" << endl;
             return;
@@ -116,12 +115,26 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
 // Reseta os dados do programa
 void Grafo::reseta_dados()
 {
-    for (int i = 0; i < MAX; i++)
+
+    for (auto &i : aresta)
     {
-        this->aresta[i].clear();
-        this->aresta_Inversa[i].clear();
-        this->visitado[i] = false;
-        this->visitado_Inverso[i] = false;
+        i.clear();
+    }
+    for (auto &j : aresta_Inversa)
+    {
+        j.clear();
+    }
+    for (auto &k : visitado)
+    {
+        k = 0;
+    }
+    for (auto &l : visitado_Inverso)
+    {
+        l = 0;
+    }
+    for (auto &m : comp_Conexa)
+    {
+        m = 0;
     }
     this->pilha_elementos = stack<int>();
 }
