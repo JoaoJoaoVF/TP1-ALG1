@@ -5,10 +5,14 @@ using namespace std;
 
 int main()
 {
+  // inicializa a classe Grafo
   Grafo eleicoes;
-  // n is the number of variables
-  // 2n is the total number of nodes
-  // m is the number of clauses
+  // Leitura dos dados do arquivo
+
+  /*
+    S representa o numero de seguidores
+    P o numero de propostas
+  */
   int S, P;
 
   do
@@ -16,19 +20,21 @@ int main()
     // Leitura do numero de seguidores e de propostas
     cin >> S >> P;
 
-    // Impressao do numero de seguidores e propostas
+    // Finaliza o programa caso o numero de seguidores e de propostas seja 0
     if (S == 0 && P == 0)
     {
       break;
     }
+
     // Erros garantindo a integridade dos dados
     erroAssert(S >= 1, "É necessário pelo menos um seguidor");
     erroAssert(P >= 1, "É necessário pelo menos uma proposta");
     erroAssert(S <= 1000, "O número de seguidores não pode ser maior que 1000");
     erroAssert(P <= 10000, "O número de propostas não pode ser maior que 10000");
 
-    vector<int> propostas_a;
-    vector<int> propostas_b;
+    // Inicia os vetores contendo as propostas dos seguidores
+    vector<int> propostas_a; // Vetor contendo as propostas X1 e Y1 dos seguidores
+    vector<int> propostas_b; // Ve tor contendo as propostas X2 e Y2 dos seguidores
 
     // loop para leitura das propostas
     for (int i = 0; i < S; i++)
@@ -39,7 +45,7 @@ int main()
       // leitura das propostas
       cin >> X1 >> X2 >> Y1 >> Y2;
 
-      // Erros garantindo que X1, X2, Y1 E Y2 sejam valores entre 1 e P
+      // Erros garantindo que X1, X2, Y1 E Y2 sejam valores entre 0 e P
       erroAssert(X1 >= 0, "X1 deve ser maior ou igual a 0");
       erroAssert(X1 <= P, "X1 deve ser menor ou igual a P");
       erroAssert(X2 >= 0, "X2 deve ser maior ou igual a 0");
@@ -49,7 +55,7 @@ int main()
       erroAssert(Y2 >= 0, "Y2 deve ser maior ou igual a 0");
       erroAssert(Y2 <= P, "Y2 deve ser menor ou igual a P");
 
-      // Adicionando as propostas a lista de propostas
+      // Adicionando as propostas no vetor de propostas
       if (X1 != 0 && X2 != 0) // caso X1 e X2 sejam diferentes de 0
       {
         propostas_a.push_back(X1);
@@ -92,10 +98,11 @@ int main()
 
     eleicoes.k_Sat(S, P, propostas_a, propostas_b);
 
-    
+    // limpa os dados armazenados nas variaveis do programa
     eleicoes.limpa();
 
   } while (S != 0 && P != 0);
-
+  
+  cout << endl;
   return 0;
 }

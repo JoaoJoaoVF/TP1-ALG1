@@ -91,10 +91,10 @@ void Grafo::k_Sat(int n, int m, vector<int> a, vector<int> b)
 
         else
         {
-            adicionaAresta(-a[i], n - b[i]);
-            adicionaArestaInversa(-a[i], n - b[i]);
-            adicionaAresta(-b[i], n - a[i]);
-            adicionaArestaInversa(-b[i], n - a[i]);
+            adicionaAresta(-a[i], m - b[i]);
+            adicionaArestaInversa(-a[i], m - b[i]);
+            adicionaAresta(-b[i], m - a[i]);
+            adicionaArestaInversa(-b[i], m - a[i]);
         }
     }
 

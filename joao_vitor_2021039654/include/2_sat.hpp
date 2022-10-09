@@ -8,23 +8,17 @@ const int MAX = 100001;
 
 class Grafo
 {
+private:
+    vector<int> aresta[MAX];         // Ponteiro para vbetor com a lista de arestas
+    vector<int> aresta_Inversa[MAX]; // Ponteiro para vbetor com a lista de arestas Inversas
+    bool visitado[MAX];              // Marca se a aresta ja foi visitada
+    bool visitado_Inverso[MAX];      // Marca se a aresta Inversa ja foi visitada
+    stack<int> pilha_elementos;      // pilha de elementos
+    int comp_Conexa[MAX];            // guarda a qual componente conexa pertence cada no
+    int contador = 1;                // contador mantém o número da Componetes Conexas
+
 public:
-    // data structures used to implement Kosaraju's
-    // Algorithm. Please refer
-    // https://www.geeksforgeeks.org/strongly-connected-components/
-    vector<int> aresta[MAX];
-    vector<int> aresta_Inversa[MAX];
-    bool visitado[MAX];
-    bool visitado_Inverso[MAX];
-    stack<int> pilha_elementos;
-
-    // this array will store the comp_Conexa that the
-    // particular node belongs to
-    int comp_Conexa[MAX];
-
-    // contador maintains the number of the comp_Conexa
-    int contador = 1;
-
+    Grafo();
     void limpa();
     void adicionaAresta(int a, int b);
     void adicionaArestaInversa(int a, int b);
