@@ -45,10 +45,13 @@ int main()
     for (int i = 0; i < S; i++)
     {
       // variaveis para guardas as propostas
-      int X1, X2, Y1, Y2;
+      int X1 = -1, X2 = -1, Y1 = -1, Y2 = -1;
 
       // leitura das propostas
-      cin >> X1 >> X2 >> Y1 >> Y2;
+      cin >> X1;
+      cin >> X2;
+      cin >> Y1;
+      cin >> Y2;
 
       // Erros garantindo que X1, X2, Y1 E Y2 sejam valores entre 0 e P
       erroAssert(X1 >= 0, "X1 deve ser maior ou igual a 0");

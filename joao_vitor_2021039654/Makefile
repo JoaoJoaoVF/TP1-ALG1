@@ -1,12 +1,13 @@
 CC = g++
+CFLAGS = -g -Wall -c -I$(INC) -std=c++11
+
 LIBS = -lm 
 SRC = src
 OBJ = ./obj/
 INC = ./include/
 BIN = ./bin/
 OBJS = $(OBJ)/2_sat.o $(OBJ)/main.o
-HDRS = $(INC)/msgassert.hpp $(INC)/2_sat.hpp
-CFLAGS = -g -Wall -c -I$(INC)
+HDRS = $(INC)/msgassert.hpp $(INC)/2_sat.hpp 
 
 EXE = $(BIN)/tp1
 
