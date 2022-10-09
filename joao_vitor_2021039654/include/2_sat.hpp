@@ -1,13 +1,18 @@
 #ifndef KSAT
 #define KSAT
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+#include <stack>
 using namespace std;
 
-const int MAX = 100001;
+const int MAX = 100000;
 
 class Grafo
 {
+
 private:
     vector<int> aresta[MAX];         // Ponteiro para vbetor com a lista de arestas
     vector<int> aresta_Inversa[MAX]; // Ponteiro para vbetor com a lista de arestas Inversas
@@ -18,13 +23,12 @@ private:
     int contador = 1;                // contador mantém o número da Componetes Conexas
 
 public:
-    Grafo();
-    void limpa();
-    void adicionaAresta(int a, int b);
-    void adicionaArestaInversa(int a, int b);
-    void primeira_DFS(int u);
-    void segunda_DFS(int u);
-    void k_Sat(int n, int m, vector<int> a, vector<int> b);
+    void adicionaAresta(int a, int b);                      // adiciona aresta ao grafo
+    void adicionaArestaInversa(int a, int b);               // adiciona aresta inversa ao grafo
+    void primeira_DFS(int u);                               // primeira DFS
+    void segunda_DFS(int u);                                // segunda DFS
+    void k_Sat(int n, int m, vector<int> a, vector<int> b); // função para verificar a satisfabilidade
+    void reseta_dados();                                    // reseta os dados para uma nova execução
 };
 
 #endif

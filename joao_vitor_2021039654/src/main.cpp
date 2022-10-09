@@ -1,4 +1,8 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+#include <stack>
 #include "../include/2_sat.hpp"
 #include "../include/msgassert.hpp"
 using namespace std;
@@ -7,6 +11,7 @@ int main()
 {
   // inicializa a classe Grafo
   Grafo eleicoes;
+
   // Leitura dos dados do arquivo
 
   /*
@@ -33,8 +38,8 @@ int main()
     erroAssert(P <= 10000, "O número de propostas não pode ser maior que 10000");
 
     // Inicia os vetores contendo as propostas dos seguidores
-    vector<int> propostas_a; // Vetor contendo as propostas X1 e Y1 dos seguidores
-    vector<int> propostas_b; // Ve tor contendo as propostas X2 e Y2 dos seguidores
+    vector<int> propostas_1; // Vetor contendo as propostas X1 e Y1 dos seguidores
+    vector<int> propostas_2; // Ve tor contendo as propostas X2 e Y2 dos seguidores
 
     // loop para leitura das propostas
     for (int i = 0; i < S; i++)
@@ -58,51 +63,51 @@ int main()
       // Adicionando as propostas no vetor de propostas
       if (X1 != 0 && X2 != 0) // caso X1 e X2 sejam diferentes de 0
       {
-        propostas_a.push_back(X1);
-        propostas_b.push_back(X2);
+        propostas_1.emplace_back(X1);
+        propostas_2.emplace_back(X2);
       }
       else
       {
         if (X1 == 0) // Caso x1 seja 0
         {
-          propostas_a.push_back(X2);
-          propostas_b.push_back(X2);
+          propostas_1.emplace_back(X2);
+          propostas_2.emplace_back(X2);
         }
         else // Caso X2 seja 0
         {
-          propostas_a.push_back(X1);
-          propostas_b.push_back(X1);
+          propostas_1.emplace_back(X1);
+          propostas_2.emplace_back(X1);
         }
       }
       if (Y1 != 0 && Y2 != 0) // caso Y1 e Y2 sejam diferentes de 0
       {
-        propostas_a.push_back(Y1 * -1);
-        propostas_b.push_back(Y2 * -1);
+        propostas_1.emplace_back(Y1 * -1);
+        propostas_2.emplace_back(Y2 * -1);
       }
       else
       {
         if (Y1 == 0) // Caso Y1 seja 0
         {
-          propostas_a.push_back(Y2 * -1);
-          propostas_b.push_back(Y2 * -1);
+          propostas_1.emplace_back(Y2 * -1);
+          propostas_2.emplace_back(Y2 * -1);
         }
         else // Caso Y2 seja 0
         {
-          propostas_a.push_back(Y1 * -1);
-          propostas_b.push_back(Y1 * -1);
+          propostas_1.emplace_back(Y1 * -1);
+          propostas_2.emplace_back(Y1 * -1);
         }
       }
     }
 
     // realiza a verificação se é possivel satisfazer as proposições
 
-    eleicoes.k_Sat(S, P, propostas_a, propostas_b);
+    eleicoes.k_Sat(S, P, propostas_1, propostas_2);
 
     // limpa os dados armazenados nas variaveis do programa
-    eleicoes.limpa();
+    eleicoes.reseta_dados();
 
   } while (S != 0 && P != 0);
-  
+
   cout << endl;
   return 0;
 }
