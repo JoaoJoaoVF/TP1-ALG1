@@ -38,7 +38,7 @@ void Grafo::DFSi(int v)
     }
 
     visitado_Inverso[v] = true;
-    componente_Conexa[v] = contador_Componetes_Conexas;
+    componente_Conexa[v] = contador_Componentes_Conexas;
 
     for (long unsigned int i = 0; i < aresta_Inversa[v].size(); i++)
     {
@@ -57,7 +57,7 @@ void Grafo::verificaCiclo(int *componente_Conexa)
     {
         while (componente_Conexa[i] == componente_Conexa[i + P])
         {
-            cout << "nao" << endl;
+            printf("nao\n");
             return;
         }
 
@@ -65,7 +65,7 @@ void Grafo::verificaCiclo(int *componente_Conexa)
     } while (i <= P);
 
     // Caso nao exista uma aresta que liga a mesma componente, o grafo é satisfazivel
-    cout << "sim" << endl;
+    printf("sim\n");
     return;
 }
 
@@ -128,8 +128,8 @@ void Grafo::verificaTipoAresta(int Propostas_1, int Propostas_2)
 void Grafo::insereAresta_aANDb(int Propostas_1, int Propostas_2)
 {
     adicionaAresta(Propostas_1 + Get_P(), Propostas_2);
-    adicionaArestaInversa(Propostas_1 + Get_P(), Propostas_2);
     adicionaAresta(Propostas_2 + Get_P(), Propostas_1);
+    adicionaArestaInversa(Propostas_1 + Get_P(), Propostas_2);
     adicionaArestaInversa(Propostas_2 + Get_P(), Propostas_1);
 }
 
@@ -137,8 +137,8 @@ void Grafo::insereAresta_aANDb(int Propostas_1, int Propostas_2)
 void Grafo::insereAresta_aAND_not_b(int Propostas_1, int Propostas_2)
 {
     adicionaAresta(Propostas_1 + Get_P(), Get_P() - Propostas_2);
-    adicionaArestaInversa(Propostas_1 + Get_P(), Get_P() - Propostas_2);
     adicionaAresta(Propostas_2 * (-1), Propostas_1);
+    adicionaArestaInversa(Propostas_1 + Get_P(), Get_P() - Propostas_2);
     adicionaArestaInversa(Propostas_2 * (-1), Propostas_1);
 }
 
@@ -146,8 +146,8 @@ void Grafo::insereAresta_aAND_not_b(int Propostas_1, int Propostas_2)
 void Grafo::insereAresta__not_aANDb(int Propostas_1, int Propostas_2)
 {
     adicionaAresta(Propostas_1 * (-1), Propostas_2);
-    adicionaArestaInversa(Propostas_1 * (-1), Propostas_2);
     adicionaAresta(Propostas_2 + Get_P(), Get_P() - Propostas_1);
+    adicionaArestaInversa(Propostas_1 * (-1), Propostas_2);
     adicionaArestaInversa(Propostas_2 + Get_P(), Get_P() - Propostas_1);
 }
 
@@ -155,8 +155,8 @@ void Grafo::insereAresta__not_aANDb(int Propostas_1, int Propostas_2)
 void Grafo::insereAresta__not_aAND_not_b(int Propostas_1, int Propostas_2)
 {
     adicionaAresta(Propostas_1 * (-1), Get_P() - Propostas_2);
-    adicionaArestaInversa(Propostas_1 * (-1), Get_P() - Propostas_2);
     adicionaAresta(Propostas_2 * (-1), Get_P() - Propostas_1);
+    adicionaArestaInversa(Propostas_1 * (-1), Get_P() - Propostas_2);
     adicionaArestaInversa(Propostas_2 * (-1), Get_P() - Propostas_1);
 }
 
@@ -177,7 +177,7 @@ void Grafo::k_Sat(vector<int> Propostas_1, vector<int> Propostas_2)
         while (!visitado_Inverso[*i])
         {
             DFSi(*i);
-            contador_Componetes_Conexas++;
+            contador_Componentes_Conexas++;
         }
     }
 

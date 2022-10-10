@@ -27,8 +27,8 @@ private:
     bool visitado[QTD_MAXIMA_ELEMENTOS];              // Marca se a aresta ja foi visitada
     bool visitado_Inverso[QTD_MAXIMA_ELEMENTOS];      // Marca se a aresta Inversa ja foi visitada
     list<int> lista_elementos;                        // lista de elementos
-    int componente_Conexa[QTD_MAXIMA_ELEMENTOS];            // guarda a qual componente conexa pertence cada no
-    int contador_Componetes_Conexas = 1;                                 // contador mantém o número da Componetes Conexas
+    int componente_Conexa[QTD_MAXIMA_ELEMENTOS];      // guarda a qual componente conexa pertence cada no
+    int contador_Componentes_Conexas = 1;             // contador mantém o número da Componetes Conexas
     int S;                                            // identificador do numero de propostas
     int P;                                            // identificador do numero de seguidores
 
