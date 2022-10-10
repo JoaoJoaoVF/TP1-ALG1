@@ -1,8 +1,3 @@
-#include <iostream>
-#include <map>
-#include <string>
-#include <vector>
-#include <stack>
 #include "../include/2_sat.hpp"
 #include "../include/msgassert.hpp"
 using namespace std;
@@ -12,21 +7,19 @@ int main()
   // inicializa a classe Grafo
   Grafo eleicoes;
 
-  // Leitura dos dados do arquivo
-
   /*
     S representa o numero de seguidores
     P o numero de propostas
   */
-  int aux_s, aux_p;
+  int seguidores, propostas;
 
   do
   {
     // Leitura do numero de seguidores e de propostas
-    cin >> aux_s >> aux_p;
+    cin >> seguidores >> propostas;
 
-    eleicoes.Set_S(aux_s);
-    eleicoes.Set_P(aux_p);
+    eleicoes.Set_S(seguidores);
+    eleicoes.Set_P(propostas);
 
     // Finaliza o programa caso o numero de seguidores e de propostas seja 0
     if (eleicoes.Get_S() == 0 && eleicoes.Get_P() == 0)
@@ -67,11 +60,11 @@ int main()
       erroAssert(Y2 <= eleicoes.Get_P(), "Y2 deve ser menor ou igual a P");
 
       // Funcao que determina o tipo de proposta e como ela deve ser adiconada no vetor
-      int tipoX = eleicoes.verificaTipoProposta(X1, X2);
-      int tipoY = eleicoes.verificaTipoProposta(Y1, Y2);
+      int tipo_X = eleicoes.verificaTipoProposta(X1, X2);
+      int tipo_Y = eleicoes.verificaTipoProposta(Y1, Y2);
 
       // Adicionando as propostas X no vetor de propostas
-      switch (tipoX)
+      switch (tipo_X)
       {
       case 1:
         propostas_1.emplace_back(X1);
@@ -88,7 +81,7 @@ int main()
       }
 
       // Adicionando as propostas Y no vetor de propostas
-      switch (tipoY)
+      switch (tipo_Y)
       {
       case 1:
         propostas_1.emplace_back(Y1 * -1);
@@ -107,12 +100,14 @@ int main()
 
     // realiza a verificação se é possivel satisfazer as proposições
 
-    eleicoes.k_Sat(eleicoes.Get_S(), eleicoes.Get_P(), propostas_1, propostas_2);
+    eleicoes.k_Sat(propostas_1, propostas_2);
 
     // limpa os dados armazenados nas variaveis do programa
     eleicoes.reseta_dados();
+
   } while (eleicoes.Get_S() != 0 && eleicoes.Get_P() != 0);
 
   cout << endl;
-  return 0;
+
+  return (0);
 }
