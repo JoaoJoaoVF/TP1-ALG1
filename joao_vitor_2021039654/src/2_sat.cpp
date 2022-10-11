@@ -88,7 +88,7 @@ int Grafo::verificaTipoProposta(int dadoA, int dadoB)
 }
 
 // Função que realiza a inserção da proposta no grafo de acordo com a logicas de inserção
-void Grafo::preencheArestas(int S, int P, vector<int> Propostas_1, vector<int> Propostas_2)
+void Grafo::preencheArestas(vector<int> Propostas_1, vector<int> Propostas_2)
 {
     for (int i = 0; i < Get_S() * 2; i++)
     {
@@ -164,10 +164,10 @@ void Grafo::insereAresta__not_aAND_not_b(int Propostas_1, int Propostas_2)
 void Grafo::k_Sat(vector<int> Propostas_1, vector<int> Propostas_2)
 {
     // laco que percorre as clausulas e adiciona as arestas ao grafo
-    preencheArestas(S, P, Propostas_1, Propostas_2);
+    preencheArestas(Propostas_1, Propostas_2);
 
     // laco que percorre os elementos do grafo original e realiza a DFS neles
-    for (int i = 1; i <= 2 * P; i++)
+    for (int i = 1; i <= 2 * Get_P(); i++)
         while (!visitado[i])
             DFS(i);
 

@@ -38,7 +38,7 @@ private:
     void DFS(int u);  // DFS com o grafo na direção normal
     void DFSi(int u); // DFS com o grafo na direção inversa
 
-    void preencheArestas(int S, int P, vector<int> Propostas_1, vector<int> Propostas_2); // Realiza o preenchimento das arestas seguindo a logica do problema -> (x OR !y) AND (!x OR y)
+    void preencheArestas(vector<int> Propostas_1, vector<int> Propostas_2); // Realiza o preenchimento das arestas seguindo a logica do problema -> (x OR !y) AND (!x OR y)
 
     void verificaTipoAresta(int Propostas_1, int Propostas_2); // Atribui um tipo de inserção para o grafo	de acordo com o tipo de entrada
 

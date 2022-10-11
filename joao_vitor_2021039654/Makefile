@@ -14,7 +14,7 @@ EXE = $(BIN)/tp1
 all: run
 
 run: $(EXE)
-	$(EXE) tp1 < casoTeste01.txt
+	$(EXE) tp1 
 
 $(BIN)/tp1: $(OBJS)
 	$(CC) -g -o $(BIN)/tp1 $(OBJS) $(LIBS)
